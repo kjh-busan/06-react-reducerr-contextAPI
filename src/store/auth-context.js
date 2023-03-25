@@ -8,22 +8,22 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
+    if (storedUserLoggedInInformation === "1") {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const loginHandler = (email, password) => {
     setIsLoggedIn(true);
     localStorage.setItem("isLoggedIn", "1");
   };
   const logoutHandler = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
   };
-
-  useEffect(() => {
-    const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
-
-    if (storedUserLoggedInInformation === "1") {
-      setIsLoggedIn(true);
-    }
-  }, []);
 
   return (
     <AuthContext.Provider
@@ -33,7 +33,7 @@ export const AuthContextProvider = (props) => {
         onLogout: logoutHandler,
       }}
     >
-      {props.chidren}
+      {props.children}
     </AuthContext.Provider>
   );
 };
