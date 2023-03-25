@@ -8,7 +8,7 @@ const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.includes("@") };
   } else if (action.type === "USER_BLUR") {
-    return { value: state.value, isValid: action.val };
+    return { value: state.value, isValid: state.value.includes("@") };
   }
   return { value: "", isValid: false };
 };
@@ -16,7 +16,7 @@ const passwordReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
     return { value: action.val, isValid: action.val.trim().length > 6 };
   } else if (action.type === "USER_BLUR") {
-    return { value: state.value, isValid: action.val };
+    return { value: state.value, isValid: state.value.trim().length > 6 };
   }
   return { value: "", isValid: false };
 };
@@ -81,7 +81,6 @@ const Login = (props) => {
     // setEmailIsValid(enteredEmail.includes("@"));
     dispatchEmail({
       type: "USER_BLUR",
-      val: emailState.value.includes("@"),
     });
   };
 
@@ -89,7 +88,6 @@ const Login = (props) => {
     // setPasswordIsValid(enteredPassword.trim().length > 6);
     dispatchPassword({
       type: "USER_BLUR",
-      isValid: passwordState.value.trim().length > 6,
     });
   };
 
